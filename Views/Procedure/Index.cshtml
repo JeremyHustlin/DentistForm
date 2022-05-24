@@ -1,0 +1,39 @@
+﻿@using DentistBookingForm.ViewModels
+@model List<ProcedureViewModel>
+
+@{
+	ViewData["Title"] = "Procedure Page";
+}
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-success">Procedure</h2>
+        </div>
+		<div class="col-6 text-end">
+			 </div>
+			 <a asp-controller="Procedure" asp-action="Create" class="btn btn-success">
+				<i class="bi bi-plus-circle"></i> &nbsp;Create New Procedure
+			</a>
+</div>
+<br/> <br/>
+
+
+<table class="table table-bordered table-striped" style="width:100%">
+	<thead>
+		<tr>
+			
+			<th>Nr. de ordine</th>
+			<th>Procedura</th>
+			<th>Doctor</th>
+		</tr>
+			@foreach(var procedure in Model)
+			{
+				<tr>
+					<td>@procedure.Id</td>
+					<td>@procedure.Name</td>
+					<td>@procedure.Doctor.UserName</td>
+				</tr>
+			}
+		</thead> 
+	<tbody>
+		

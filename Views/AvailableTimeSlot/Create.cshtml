@@ -1,0 +1,38 @@
+﻿@using DentistBookingForm.ViewModels
+@model AvailableTimeSlotViewModel
+
+<form method="post">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-success">Create New Time</h2>
+			<hr />
+		</div>
+		<div asp-validation-summary="All"></div>
+		<input asp-for="Id" class="form-control" type="hidden" />
+		<div class="mb-3">
+			<label asp-for="Doctor.Id"> DoctorId </label>
+			<input asp-for="Doctor.Id" class="form-control" />
+			<span asp-validation-for="Doctor.Id" class="text-danger"></span>
+		</div>
+		
+		<div class="mb-3">
+			<label asp-for="DayOfWeek"> </label>
+			<input asp-for="DayOfWeek" class="form-control" />
+			<span asp-validation-for="DayOfWeek" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Hour"> </label>
+			<input asp-for="Hour" class="form-control" />
+			<span asp-validation-for="Hour" class="text-danger"></span>
+		</div>
+		<button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+		<a asp-controller="AvailableTimeSlot" asp-action="Index" class="btn btn-success" style="width:150px">
+			Back to List
+		</a>
+	</div>
+</form>
+@section Scripts {
+   @{
+	<partial name="_ValidationScriptsPartial" />
+    }
+}

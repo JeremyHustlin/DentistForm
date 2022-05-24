@@ -1,0 +1,71 @@
+﻿@using DentistBookingForm.ViewModels
+
+
+@model List<DoctorViewModel>
+
+
+@{
+	ViewData["Title"] = "Doctor Page";
+}
+<div class="container p-3">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-success">Doctor</h2>
+        </div>
+		<div class="col-6 text-end">
+			 </div>
+			 <a asp-controller="Doctor"  asp-action="Create" class="btn btn-success">
+				<i class="bi bi-plus-circle"></i> &nbsp;Create New Doctor
+			</a>
+</div>
+<br/> <br/>
+
+
+<table class="table table-bordered table-striped" style="width:100%">
+	<thead>
+		<tr>
+			
+			<th>Doctor</th>
+			<th>Ability</th>
+			<th>Procedure</th>
+			<th>Time</th>
+			<th>Date</th>
+		</tr>
+		 
+				
+			@foreach(var doctor in Model)
+			{
+				<tr>
+					
+					<td>@doctor.UserName</td>
+					<td>@if (doctor.Abilities.Any())
+						{
+							@doctor.Abilities.Select(ability => ability.Name).Aggregate((i,j) => $"{i},{j}")
+						}
+					</td>
+					<td>
+						@if (doctor.Procedures.Any())
+						{
+							@doctor.Procedures.Select(procedure => procedure.Name).Aggregate((i,j) => $"{i},{j}")
+							
+						}
+					</td>
+					<td> @if (doctor.AvailableTimeSlots.Any())
+						{
+							@doctor.AvailableTimeSlots.Select(time => time.Hour.ToString()).Aggregate((i,j) => $"{i},{j}")
+						}
+					</td>
+					<td>
+					 @if (doctor.AvailableTimeSlots.Any())
+						{
+							@doctor.AvailableTimeSlots.Select(time => time.DayOfWeek.ToString()).Aggregate((i,j) =>  $"{i},{j}")
+						}
+					</td>
+
+					
+					</tr>
+				
+			}
+		</thead> 
+	<tbody>
+		

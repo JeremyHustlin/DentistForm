@@ -1,0 +1,32 @@
+﻿@using DentistBookingForm.ViewModels
+@model AbilityViewModel
+
+<form method="post" asp-action="Edit">
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-success">Edit Ability</h2>
+			<hr />
+		</div>
+				
+		<div class="mb-3">
+			<label asp-for="Name"> </label>
+			<input asp-for="Name" class="form-control"/>
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Doctor.Id"> </label>
+			<input asp-for="Doctor.Id" class="form-control"/>
+			<span asp-validation-for="Doctor.Id" class="text-danger">DoctorId</span>
+			</div>
+			
+		<button type="submit" class="btn btn-success" style="width:150px">Update</button>
+		<a asp-controller="Ability"  asp-action="Index" class="btn btn-secondary" style="width:150px">
+			Back to List
+			</a>
+			</div>
+			</form>
+@section Scripts {
+   @{
+	<partial name="_ValidationScriptsPartial"/>
+    }
+}
