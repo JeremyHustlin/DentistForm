@@ -56,6 +56,62 @@ namespace DentistBookingForm.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            var model = await _applicationDbContext
+                .AvailableTimeSlots
+                .Include(x => x.Doctor)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if(model == null)
+            {
+                return NotFound();
+            }
+
+            var modelView = new AvailableTimeSlotViewModel
+            {
+                Id = model.Id,
+                DayOfWeek = model.DayOfWeek,
+                Hour = model.Hour,
+                Doctor = new DoctorViewModel()
+                {
+                    Id = model.Doctor.Id,
+                    UserName = model.Doctor.UserName,
+                }
+            };
+            return View(modelView);
+
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(AvailableTimeSlot model)
+        {
+            var timeSlot = await _applicationDbContext
+                .AvailableTimeSlots
+                .SingleOrDefaultAsync(x => x.Id == model.Id);
+
+            if (timeSlot == null)
+            {
+                NotFound();
+            }
+
+            timeSlot.DayOfWeek = model.DayOfWeek;
+            timeSlot.Hour = model.Hour;
+            timeSlot.DoctorId = model.Doctor.Id;
+
+            await _applicationDbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+            return View(timeSlot);
+
+        }
+
+
+
+        
+
     }
 
 }
