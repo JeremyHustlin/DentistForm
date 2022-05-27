@@ -60,6 +60,56 @@ namespace DentistBookingForm.Controllers
             return RedirectToAction(nameof(Index));
             
         }
+        [HttpGet]
+        public async Task<ActionResult> Edit(int id)
+        {
+            var model = await _applicationDbContext
+                .Procedures
+                .Include(x => x.Doctor)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ProcedureViewModel
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Doctor = new DoctorViewModel()
+                {
+                    Id = model.Doctor.Id,
+                    UserName = model.Doctor.UserName,
+                }
+
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(ProcedureViewModel model)
+        {
+            var procedure = await _applicationDbContext
+                .Procedures
+                .SingleOrDefaultAsync(x => x.Id == model.Id);
+                if(procedure==null)
+                {
+                NotFound();
+                }
+            procedure.Name = model.Name;
+            procedure.DoctorId=model.Doctor.Id;
+
+            await _applicationDbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+            return View(procedure);
+           
+        }
+
+
+
     }
     
 }

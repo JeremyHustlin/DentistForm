@@ -75,7 +75,7 @@ namespace DentistBookingForm.Controllers
                 return NotFound();
             }
 
-            var viewModel = new AbilityViewModel
+            var viewModel = new AbilityViewModel()
             {
                 Name = model.Name,
                 Id = model.Id,
@@ -94,7 +94,9 @@ namespace DentistBookingForm.Controllers
         public async Task<ActionResult> Edit(AbilityViewModel model)
         {
 
-            var ability = await _applicationDbContext.Abilities.SingleOrDefaultAsync(x => x.Id == model.Id);
+            var ability = await _applicationDbContext
+                .Abilities
+                .SingleOrDefaultAsync(x => x.Id == model.Id);
             
             if (ability == null)
             {
@@ -108,12 +110,9 @@ namespace DentistBookingForm.Controllers
 
 
             await _applicationDbContext.SaveChangesAsync();
-
-
             return RedirectToAction(nameof(Index));
+
             return View(ability);
-
-
         }
 
     }

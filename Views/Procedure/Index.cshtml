@@ -25,6 +25,7 @@
 			<th>Nr. de ordine</th>
 			<th>Procedura</th>
 			<th>Doctor</th>
+			<th>Edit</th>
 		</tr>
 			@foreach(var procedure in Model)
 			{
@@ -32,6 +33,11 @@
 					<td>@procedure.Id</td>
 					<td>@procedure.Name</td>
 					<td>@procedure.Doctor.UserName</td>
+					<td><div class="w-50 btn-group" role="group">
+						<a asp-controller="Procedure" asp-action="Edit" asp-route-id="@procedure.Id"
+						class="btn btn-success mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+						
+                        </div></td>
 				</tr>
 			}
 		</thead> 
