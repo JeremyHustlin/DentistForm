@@ -116,8 +116,63 @@ namespace DentistBookingForm.Controllers
 
         }
 
-    }
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
+        {
+            if (id == null || id == 0)
+            {
+                NotFound();
+            }
 
+            var model = await _applicationDbContext
+                .Abilities
+                .Include(x => x.Doctor)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (model == null)
+            {
+                NotFound();
+            }
+
+            var viewModel = new AbilityViewModel()
+            {
+                Name = model.Name,
+                Id = model.Id,
+               
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(AbilityViewModel model)
+        {
+            var ability = await _applicationDbContext
+                .Abilities
+                .SingleOrDefaultAsync(x=>x.Id==model.Id);
+
+            if (ability == null)
+            {
+                NotFound();
+            }
+
+            ability.Name=model.Name;
+            ability.Id=model.Id;
+           
+
+           _applicationDbContext.Abilities.Remove(ability);
+            await _applicationDbContext.SaveChangesAsync();
+            TempData["success"] = "Category deleted successufully";
+            return RedirectToAction(nameof(Index));
+
+        }
+            
+        
+
+
+    }
+    
 }
 
 
