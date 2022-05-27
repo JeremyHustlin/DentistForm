@@ -26,6 +26,7 @@
 			<th>User</th>
 			<th>Email</th>
 			<th>Number</th>
+			<th>Edit</th>
 		</tr>
 			@foreach(var user in Model)
 			{
@@ -34,6 +35,12 @@
 					<td>@user.UserName</td>
 					<td>@user.Email</td>
 					<td>@user.PhoneNumber</td>
+					<td><div class="w-50 btn-group" role="group">
+						<a asp-controller="ApplicationUser" asp-action="Edit" asp-route-id="@user.Id"
+						class="btn btn-success mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+						
+                        </div></td>
+
 				</tr>
 			}
 		</thead> 
