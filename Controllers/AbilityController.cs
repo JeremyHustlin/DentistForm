@@ -118,10 +118,7 @@ namespace DentistBookingForm.Controllers
         [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
-            if (id == null || id == 0)
-            {
-                NotFound();
-            }
+            
 
             var model = await _applicationDbContext
                 .Abilities
@@ -135,7 +132,7 @@ namespace DentistBookingForm.Controllers
 
             var viewModel = new AbilityViewModel()
             {
-                Name = model.Name,
+               
                 Id = model.Id,
                
             };
@@ -156,13 +153,13 @@ namespace DentistBookingForm.Controllers
                 NotFound();
             }
 
-            ability.Name=model.Name;
+           
             ability.Id=model.Id;
            
 
            _applicationDbContext.Abilities.Remove(ability);
             await _applicationDbContext.SaveChangesAsync();
-            TempData["success"] = "Category deleted successufully";
+            
             return RedirectToAction(nameof(Index));
 
         }

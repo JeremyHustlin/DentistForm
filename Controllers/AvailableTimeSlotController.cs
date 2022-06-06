@@ -86,7 +86,7 @@ namespace DentistBookingForm.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(AvailableTimeSlot model)
+        public async Task<ActionResult> Edit(AvailableTimeSlotViewModel model)
         {
             var timeSlot = await _applicationDbContext
                 .AvailableTimeSlots
@@ -108,9 +108,63 @@ namespace DentistBookingForm.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> Delete(int id)
+        {
 
 
-        
+            var model = await _applicationDbContext
+                .AvailableTimeSlots
+                .Include(x => x.Doctor)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (model == null)
+            {
+                NotFound();
+            }
+
+            var viewModel = new AvailableTimeSlotViewModel()
+            {
+
+                Id = model.Id,
+                DayOfWeek = model.DayOfWeek,
+                Hour = model.Hour,
+
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(AvailableTimeSlotViewModel model)
+        {
+            var timeSlot = await _applicationDbContext
+                .AvailableTimeSlots
+                .SingleOrDefaultAsync(x => x.Id == model.Id);
+
+            if (timeSlot == null)
+            {
+                NotFound();
+            }
+
+
+            timeSlot.Id = model.Id;
+            timeSlot.DayOfWeek=model.DayOfWeek;
+            timeSlot.Hour = model.Hour;
+
+
+            _applicationDbContext.AvailableTimeSlots.Remove(timeSlot);
+            await _applicationDbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
+
+
+
+
 
     }
 

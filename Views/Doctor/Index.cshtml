@@ -30,7 +30,7 @@
 			<th>Procedure</th>
 			<th>Time</th>
 			<th>Date</th>
-			<th>Edit</th>
+			<th>Edit/Delete</th>
 		</tr>
 		 
 				
@@ -66,6 +66,8 @@
 					<td><div class="w-50 btn-group" role="group">
 						<a asp-controller="Doctor" asp-action="Edit" asp-route-id="@doctor.Id"
 						class="btn btn-success mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
+						<a asp-controller="Doctor" asp-action="Delete" asp-route-id="@doctor.Id"
+						class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
 						
                         </div></td>
 

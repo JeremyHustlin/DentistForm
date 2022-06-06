@@ -109,6 +109,8 @@ namespace DentistBookingForm.Controllers
             var doctor = await _applicationDbContext
                 .Doctors
                 .Include(x => x.Abilities)
+                 .Include(x => x.Procedures)
+                .Include(x => x.AvailableTimeSlots)
                 .SingleOrDefaultAsync(x => x.Id == model.Id);
 
             if (doctor == null)
@@ -142,6 +144,57 @@ namespace DentistBookingForm.Controllers
             await _applicationDbContext.SaveChangesAsync();
            return RedirectToAction(nameof(Index));
            
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(string id)
+        {
+
+
+            var model = await _applicationDbContext
+                .Doctors
+                .Include(x => x.Procedures)
+                 .Include(x => x.AvailableTimeSlots)
+                  .Include(x => x.Abilities)
+                .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (model == null)
+            {
+                NotFound();
+            }
+
+            var viewModel = new DoctorViewModel()
+            {
+
+                Id = model.Id,
+
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(DoctorViewModel model)
+        {
+            var doctor = await _applicationDbContext
+                .Doctors
+                .SingleOrDefaultAsync(x => x.Id == model.Id);
+
+            if (doctor == null)
+            {
+                NotFound();
+            }
+
+
+            doctor.Id = model.Id;
+
+
+            _applicationDbContext.Doctors.Remove(doctor);
+            await _applicationDbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+
         }
     }
 }
