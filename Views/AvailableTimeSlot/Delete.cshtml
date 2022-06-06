@@ -1,19 +1,21 @@
 ﻿@using DentistBookingForm.ViewModels
-@model AbilityViewModel
+@model AvailableTimeSlotViewModel
 
 
 <form method="post" asp-action="Delete">
 	<input asp-for="Id" hidden/>
+	<input asp-for="Hour" hidden/>
+	<input asp-for="DayOfWeek" hidden/>
 	<div class="border p-3 mt-4">
 		<div class="row pb-2">
-			<h2 class="text-success">Delete Ability</h2>
+			<h2 class="text-success">Delete Time</h2>
 			<hr />
 		</div>
 	
 		
 		
 		<button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
-		<a asp-controller="Ability"  asp-action="Index" class="btn btn-success" style="width:150px">
+		<a asp-controller="AvailableTimeSlot"  asp-action="Index" class="btn btn-success" style="width:150px">
 			Back to List
 			</a>
 			</div>
@@ -23,4 +25,3 @@
 	<partial name="_ValidationScriptsPartial"/>
     }
 }
-

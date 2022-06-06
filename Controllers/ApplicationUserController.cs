@@ -93,8 +93,46 @@ namespace DentistBookingForm.Controllers
 
             await _applicationDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-            return View(users);
+          
 
+        }
+        [HttpGet]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var model = await _applicationDbContext
+            .Users
+            .SingleOrDefaultAsync(x => x.Id == id);
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new ApplicationUserViewModel()
+            {
+                Id = model.Id,
+
+            };
+            return View(viewModel);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete (ApplicationUserViewModel model)
+        {
+            var users=await _applicationDbContext
+                .Users
+                .SingleOrDefaultAsync(x=>x.Id == model.Id);
+
+            if(users==null)
+            {
+                return NotFound();
+            }
+            users.Id=model.Id;
+
+            _applicationDbContext.Users.Remove(users);
+            await _applicationDbContext.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
 
