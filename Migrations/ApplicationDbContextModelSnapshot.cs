@@ -17,7 +17,7 @@ namespace DentistBookingForm.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.4")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -43,14 +43,6 @@ namespace DentistBookingForm.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("Abilities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DoctorId = "71c70f75-a2e5-4d67-a96d-65b60d6798b8",
-                            Name = "Inalbire"
-                        });
                 });
 
             modelBuilder.Entity("DentistBookingForm.Models.ApplicationUser", b =>
@@ -75,6 +67,14 @@ namespace DentistBookingForm.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -170,14 +170,6 @@ namespace DentistBookingForm.Migrations
                     b.HasIndex("DoctorId");
 
                     b.ToTable("Procedures");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DoctorId = "71c70f75-a2e5-4d67-a96d-65b60d6798b8",
-                            Name = "Curatenie"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -260,10 +252,12 @@ namespace DentistBookingForm.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -300,10 +294,12 @@ namespace DentistBookingForm.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -318,20 +314,6 @@ namespace DentistBookingForm.Migrations
                     b.HasBaseType("DentistBookingForm.Models.ApplicationUser");
 
                     b.HasDiscriminator().HasValue("Doctor");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "71c70f75-a2e5-4d67-a96d-65b60d6798b8",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "5902e289-f555-4851-8acb-b899f0534c1f",
-                            Email = "example@example.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "4fb2382a-355a-4d0b-8725-01d1a242c0c2",
-                            TwoFactorEnabled = false
-                        });
                 });
 
             modelBuilder.Entity("DentistBookingForm.Models.Ability", b =>
